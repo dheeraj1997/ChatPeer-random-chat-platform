@@ -12,10 +12,12 @@ const rtsIndex = require('./routes/index.router');
 
 var chat = require('./routes/chat');
 var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
 
 app.use(express.static(path.join(__dirname+'/public/')));
-console.log(path.join(__dirname+'/public'));
+//console.log(path.join(__dirname+'/public'));
 
 // middleware
 app.use(bodyParser.json());
@@ -37,4 +39,17 @@ app.use((err, req, res, next) => {
 });
 
 // start server
-app.listen(process.env.PORT, () => console.log(`Server started at port : ${process.env.PORT}`));
+server.listen(process.env.PORT, () => console.log(`Server started at port : ${process.env.PORT}`));
+
+
+// socket io
+io.on('connection', function (socket) {
+    console.log('User connected');
+    socket.on('disconnect', function() {
+        console.log('User disconnected');
+    });
+    socket.on('save-message', function (data) {
+        console.log("save-message ",data);
+        io.emit('new-message', { message: data });
+    });
+});

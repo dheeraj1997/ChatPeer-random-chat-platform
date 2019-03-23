@@ -336,7 +336,7 @@ var ChatroomComponent = /** @class */ (function () {
         this.joinned = false;
         this.newUser = { nickname: '', room: '' };
         this.msgData = { room: 'Javascript', nickname: '', message: '' };
-        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2__('http://localhost:4000');
+        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2__('http://localhost:3000');
     }
     ChatroomComponent.prototype.ngOnInit = function () {
         // console.log("Chatroom onInit ");
@@ -695,7 +695,7 @@ var ShowProfileComponent = /** @class */ (function () {
         this.joinned = false;
         this.newUser = { nickname: '', room: '' };
         this.msgData = { room: '', nickname: '', message: '' };
-        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_4__('http://localhost:4000');
+        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_4__('http://localhost:3000');
     }
     ShowProfileComponent.prototype.ngOnInit = function () {
         var _this = this;
