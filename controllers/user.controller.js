@@ -76,9 +76,9 @@ module.exports.userProfile = (req, res, next) =>{
 }
 
 module.exports.suggestProfile = (req, res, next) =>{
-    // console.log("suggesting profile ... ", req.params);
+    console.log("suggesting profile ... ", req.params);
     User.findOne({ _id: req.params._id }).then(function (results){
-        // console.log("then work ",results);
+        console.log("then work ",results.age, typeof results.age);
             User.aggregate([
                 {
                     "$match": {
@@ -95,7 +95,7 @@ module.exports.suggestProfile = (req, res, next) =>{
                     "$project": {
                         "fullName": 1,
                         "age": 1,
-                        // "ageDiff": {"$abs": {"$subtract":["$age",results.age]}},
+                        "ageDiff": {"$abs": {"$subtract":["$age",results.age]}},
                         "locality": 1,
                         "interest": 1,
                         "common": {
@@ -106,10 +106,10 @@ module.exports.suggestProfile = (req, res, next) =>{
                     },
                 },
                 {
-                    "$sort": {common:-1,age:1}
+                    "$sort": {common:-1,ageDiff:1}
                 }
             ], (err, doc) => {
-                console.log('suggest profile called ', doc);
+                // console.log('suggest profile error ', doc);
                 if (!doc){
                     console.log('res is not correct');
                     return res.status(404).json({ status: false, message: 'User record not found.' });
