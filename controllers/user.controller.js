@@ -57,7 +57,7 @@ module.exports.logout = (req, res, next) => {
         {$set:{status:false}},
         function (err,res) {
             if (err) throw err;
-            console.log(res);
+            // console.log(res);
         });
     return res.status(200).json({status:true, message:'User logged out'});
 }
@@ -78,7 +78,7 @@ module.exports.userProfile = (req, res, next) =>{
 module.exports.suggestProfile = (req, res, next) =>{
     // console.log("suggesting profile ... ", req.params);
     User.findOne({ _id: req.params._id }).then(function (results){
-        console.log("then work ",results);
+        // console.log("then work ",results);
             User.aggregate([
                 {
                     "$match": {
@@ -95,7 +95,7 @@ module.exports.suggestProfile = (req, res, next) =>{
                     "$project": {
                         "fullName": 1,
                         "age": 1,
-                        //"ageDiff": {"$abs": {"$subtract":["$age",results.age]}},
+                        // "ageDiff": {"$abs": {"$subtract":["$age",results.age]}},
                         "locality": 1,
                         "interest": 1,
                         "common": {

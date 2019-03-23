@@ -9,22 +9,22 @@ const cors = require('cors');
 const passport = require('passport');
 
 const rtsIndex = require('./routes/index.router');
+const rtsChat = require('./routes/chat.router');
 
-var chat = require('./routes/chat');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
 
-app.use(express.static(path.join(__dirname+'/public/')));
-//console.log(path.join(__dirname+'/public'));
+// app.use(express.static(path.join(__dirname+'/public/')));
+// console.log(path.join(__dirname+'/public'));
 
 // middleware
 app.use(bodyParser.json());
 app.use(cors());
 app.use(passport.initialize());
 app.use('/api', rtsIndex);
-app.use('/api/chat', chat);
+app.use('/api/chat', rtsChat);
 
 // error handler
 app.use((err, req, res, next) => {
