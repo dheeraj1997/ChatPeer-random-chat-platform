@@ -86,7 +86,7 @@ module.exports.suggestProfile = (req, res, next) =>{
                         "status": true,
                         "$or": [
                             {"interest": {"$in": results.interest}},
-                            {"age": {"$gte": results.age - (5),"$lte":results.age + 5}},
+                            {"age": {"$gte": results.age - 5,"$lte":results.age + 5}},
                             {"locality": results.locality}
                         ]
                     },
