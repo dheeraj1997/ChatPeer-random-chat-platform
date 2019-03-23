@@ -491,8 +491,6 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
-// import { Headers } from '@angular/http';
-// import { map } from 'rxjs/operators';
 
 
 var ChatService = /** @class */ (function () {
@@ -584,7 +582,7 @@ var UserService = /** @class */ (function () {
         return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiBaseUrl + '/authenticate', authCredentials, this.noAuthHeader);
     };
     UserService.prototype.logout = function () {
-        var id = localStorage.getItem('_id');
+        var id = this.getId();
         console.log("api accessed ", id);
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiBaseUrl + '/logout/' + id);
     };
@@ -592,7 +590,7 @@ var UserService = /** @class */ (function () {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiBaseUrl + '/userProfile');
     };
     UserService.prototype.getOthersProfile = function () {
-        var id = localStorage.getItem('_id');
+        var id = this.getId();
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiBaseUrl + '/suggestProfile/' + id);
     };
     //Helper Methods
@@ -604,6 +602,13 @@ var UserService = /** @class */ (function () {
     };
     UserService.prototype.deleteToken = function () {
         localStorage.removeItem('token');
+        localStorage.removeItem('_id');
+    };
+    UserService.prototype.setID = function (_id) {
+        localStorage.setItem('_id', _id);
+    };
+    UserService.prototype.getId = function () {
+        return localStorage.getItem('_id');
     };
     UserService.prototype.getUserPayload = function () {
         var token = this.getToken();
@@ -700,7 +705,8 @@ var ShowProfileComponent = /** @class */ (function () {
     ShowProfileComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.userService.getUserProfile().subscribe(function (res) {
-            localStorage.setItem('_id', res['user']._id);
+            // localStorage.setItem('_id', res['user']._id);
+            _this.userService.setID(res['user']._id);
             _this.loggedUser = res['user'];
             _this.userService.getOthersProfile().subscribe(function (res) {
                 console.log("showing recieved profile ", res);
@@ -844,7 +850,7 @@ var UserProfileComponent = /** @class */ (function () {
         this.userService.getUserProfile().subscribe(function (res) {
             _this.userDetails = res['user'];
             // console.log(res.user._id);
-            localStorage.setItem('_id', res['user']._id);
+            _this.userService.setID(res['user']._id);
             // this.userDetails.interest = JSON.parse(this.userDetails.interest)
         }, function (err) {
             console.log(err);
